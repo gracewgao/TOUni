@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <!--  This file has been downloaded from https://bootdey.com  -->
+    <!--  All snippets are MIT license https://bootdey.com/license -->
+    <title>TOUni</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon"
+      type="image/png"
+      href="logo.png">
+    <script>
+    var curPos;
+    var map;
+    function initMap() {
+
+      curPos = {lat: 43.4723, lng: -80.5449};
+
+      // Set up the map
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: curPos,
+        zoom: 18,
+        streetViewControl: false
+      });
+    } // end of initMap
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAWFJTVzn5J9dPjIZaOawBYuTOPGUDuGfM&callback=initMap"
+    type="text/javascript"></script>
+
+
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'>
+
+    <style type="text/css">
+
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+      }
+
+h1 {
+  font-size: 30px;
+  font-family: "Nunito", sans-serif;
+
+  padding-left: 20px;}
+
+  h2 {
+    font-size: 15px;
+    font-family: "Nunito", sans-serif;}
+
+    label {
+      font-family: "Nunito", sans-serif;
+    }
+
+.comment-wrapper .panel-body {
+  overflow:hidden;
+  right:0;
+
+}
+
+.comment-wrapper .media-list .media img {
+    width:64px;
+    height:64px;
+    border:2px solid #e5e7e8;
+    right:0;
+}
+
+.comment-wrapper .media-list .media .comment-body img {
+    width:20px;
+    height:20px;
+    margin: 0;
+    border:none;
+
+}
+
+.comment-wrapper .media-list .media .reply {
+    padding-right:130px;
+}
+
+.comment-wrapper .media-list .media {
+    border-bottom:1px dashed #efefef;
+    margin-bottom:15px;
+    padding-bottom: 20px;
+    right:0;
+
+}
+
+.comment-wrapper .media-list .media h2{
+    line-height: 1.7
+
+}
+
+.filter {
+  font-family: "Nunito", sans-serif;
+}
+.panel-heading{
+font-family: "Nunito", sans-serif;
+}
+.container{
+  display: flex;
+  align-items: stretch;
+  padding:0px;
+  position: relative;
+  height: 100%;
+  width:100%;
+}
+
+.open-button {
+  position: absolute;
+  border: 3px solid #d6d3c9;
+  background-color: white;
+  color: black;
+  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  bottom: 23px;
+  left: 28px;
+  width: 150px;
+  border-radius: 48px;
+  font-family: "Nunito", sans-serif;
+  transition: 0.5s;
+}
+
+.open-button:hover {
+  border-color: white;
+  background: linear-gradient(to bottom right, #333399, #ff00cc);
+  color: white;
+}
+
+.form-popup {
+  display: none;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  max-width: 300px;
+  position: absolute;
+  bottom: 23px;
+  left: 28px;
+}
+
+.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+.form-container input[type=text] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+.form-container input[type=text]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+.form-container .btn {
+  border: 3px solid #d6d3c9;
+  background-color: white;
+  color: black;
+  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom:10px;
+  opacity: 0.8;
+  border-radius: 48px;
+  font-family: "Nunito", sans-serif;
+  transition: 0.5s;
+}
+
+.form-container .btn:hover {
+  border-color: white;
+  background: linear-gradient(to bottom right, #11998e, #38ef7d);
+  color: white;
+}
+
+.form-container .cancel:hover {
+  border-color: white;
+  background: #FF416C;
+  color: white;
+}
+
+
+#myForm{
+  position: absolute;
+  z-index: 100;
+}
+
+    </style>
+</head>
+<body>
+<div class="container" >
+
+<div class="row bootstrap snippets" style="z-index: 5">
+
+  <img src="wloo.png" style="height:100px; width:100px; position:absolute; top: 40px; right: 440px; z-index:6">
+  <button class="open-button" id="streetButton" onclick="toggleStreetView()" style= "bottom: 23px; left: 200px; height:fit-content">Streetview</button>
+
+  <!-- Add Marker button starts here -->
+  <button class="open-button" onclick="openForm()">Add Marker</button>
+
+  <div class="form-popup" id="myForm">
+    <div class="form-container">
+
+      <label for="title"><b>Title</b></label>
+      <input type="text" placeholder="Enter Title" name="title" id="title">
+
+      <label for="dscrptn"><b>Description</b></label>
+      <textarea class="form-control" placeholder="Write a description..." rows="5" id="description"></textarea>
+      <br>
+      <label for="filter"><b>Category:</b></label>
+      <select class="filter" id="category">
+          <option value="" selected disabled hidden></option>
+          <option value=0>Residence</option>
+          <option value=1>Food</option>
+          <option value=2>Campus Buildings</option>
+          <option value=3>Other</option>
+      </select>
+      <br> <br>
+      <button type="submit" class="btn" onclick="saveMarker()">Save</button>
+      <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </div>
+  </div>
+  <!-- Add Marker button ends here -->
+
+    <div class="col-md-6 col-md-offset-2 col-sm-12" style="position:absolute; z-index: 5; right:0; top:0; padding:0; margin:0; width:400px">
+        <div class="comment-wrapper">
+            <div class="panel panel-info" style="height:100vh; margin:0">
+              <div style="background-image: url('header-hero.jpg'); height:100vh">
+
+              <ul class="nav nav-tabs nav-justified">
+                <li><h1><b id="markerName">Marked location</b></h1></li><p>
+                <li><h2 style="padding-left: 20px; margin-top:0; font-size:16px" id="markerDescription">No description available.</h2></li><p>
+
+
+
+
+        <li class="active"><a href="#comments" data-toggle="tab"><i class="fa fa-comments"></i> New Comments</a></li>
+    	  <li><a href="#popular" data-toggle="tab" style="color:grey"><i class="fa fa-star"></i> Popular Posts</a></li>
+    	</ul>
+
+                <div class="panel-body">
+                  <label class="filter"> Sort By: </label>
+                  <select class="filter" id="category">
+                      <option value="" selected disabled hidden>Filter</option>
+                      <option>Residence</option>
+                      <option>Food</option>
+                      <option>Campus Buildings</option>
+                      <option>Other</option>
+                  </select>
+
+                    <hr>
+                    <ul class="media-list">
+                        <li class="media">
+                            <a href="#" class="pull-left">
+                                <img src="https://img.icons8.com/nolan/64/test-account.png" alt="" class="img-circle">
+                            </a>
+                            <div class="media-body">
+                                <span class="text-muted pull-right">
+                                    <small class="text-muted">30 min ago</small>
+                                </span>
+
+                                <h2>
+                                It's great to see more silent study space and i’m so excited to start having my lectures in this building.
+                                </h2>
+                                <div class="comment-body">
+                              <!-- <button class="downvote"></button>
+                              <button class="upvote"></button> -->
+                              <img src="https://img.icons8.com/material-outlined/24/000000/send-letter.png"/>
+                            <img src="https://img.icons8.com/material-outlined/24/000000/low-importance.png"/>
+                              <span class="votes"> 128 </span>
+                              <span class="reply"> </span>reply  <img src="https://img.icons8.com/nolan/64/reply-arrow--v2.png"/>
+                              </div>
+                            </div>
+                        </li>
+                        <li class="media">
+                            <a href="#" class="pull-left">
+                                <img src="https://img.icons8.com/nolan/64/user-female-circle.png" alt="" class="img-circle">
+                            </a>
+                            <div class="media-body">
+                                <span class="text-muted pull-right">
+                                    <small class="text-muted">1h ago</small>
+                                </span>
+                                <h2>
+                                  The building looks amazing, looks like the stark towers from avengers haha :). <a href="#">#newbuilding </a>
+                                </h2>
+                                <div class="comment-body">
+                              <img src="https://img.icons8.com/material-outlined/24/000000/send-letter.png"/>
+                            <img src="https://img.icons8.com/material-outlined/24/000000/low-importance.png"/>
+                            <span class="votes"> -28 </span>
+                            <span class="reply"> </span>reply  <img src="https://img.icons8.com/nolan/64/reply-arrow--v2.png"/>
+                              </div>
+                            </div>
+                        </li>
+                        <li class="media">
+                            <a href="#" class="pull-left">
+                                <img src="https://img.icons8.com/nolan/64/user-male-circle.png" alt="" class="img-circle">
+                            </a>
+                            <div class="media-body">
+                                <span class="text-muted pull-right">
+                                    <small class="text-muted">5h ago</small>
+                                </span>
+                                <h2>
+                                    There are some useful workshop, study and lecture spaces on the lower levels. It looks decent but not many windows, it's something we are really lacking on campus. <a href="#">#needsunlight</a>
+                                </h2>
+                                <div class="comment-body">
+                              <img src="https://img.icons8.com/material-outlined/24/000000/send-letter.png"/>
+                            <img src="https://img.icons8.com/material-outlined/24/000000/low-importance.png"/>
+                            <span class="votes"> 500 </span>
+                            <span class="reply"> </span>reply  <img src="https://img.icons8.com/nolan/64/reply-arrow--v2.png"/>
+                              </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <textarea class="form-control" placeholder="Add a comment..." rows="3" id="comment"></textarea>
+                    <br>
+                    <button type="button" class="btn btn-info pull-right" onclick="saveComment()">Post</button>
+                    <div class="clearfix"></div>
+                    <hr>
+                </div>
+            </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+  <div id="map"></div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+  document.getElementById("streetButton").style.display = "none";
+
+  addMarker();
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+  document.getElementById("streetButton").style.display = "block";
+}
+</script>
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
+
+<!-- custom javascript file -->
+<script type="text/javascript" src="map.js"></script>
+</body>
+</html>
